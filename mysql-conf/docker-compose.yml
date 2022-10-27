@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0.31
+    container_name: si_mysql_1
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3306:3306
+      - 33060:33060
+    volumes:
+      - /root/db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 'TISA.2022'
+      MYSQL_DATABASE: 'polin'
+      MYSQL_USER: 'si'
+      MYSQL_PASSWORD: 'tisapolines'
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
