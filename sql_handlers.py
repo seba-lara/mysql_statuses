@@ -23,19 +23,10 @@ class SQLConnection:
                 database=database)
 
             print("Connection to MySQL DB successful")
-        except Error as e:
-            print(f"The error '{e}' occurred")
+        except Error as err:
+            print(f"The error '{err}' occurred")
         return connection
 
-    def create_database(query,params):
-        connection = mysql.connector.connect(params)
-        cursor = connection.cursor()
-        try:
-            cursor.execute(query)
-            print('Database successfully')
-        except Error as err:
-            print(f'error: {err}')
-    
     def execute_query(connection, query,data):
         cursor = connection.cursor()
         try:
@@ -45,10 +36,19 @@ class SQLConnection:
         except Error as err:
             print(f'error: {err}')
     
-    def create_table(connection, query):
+    def create_table(connection):
+        create_status_table = """CREATE TABLE IF NOT EXISTS `statuses` (
+            `_id` varchar(24) COLLATE 'ascii_general_ci' NOT NULL,
+            `key` varchar(40) COLLATE 'ascii_general_ci' NOT NULL,
+            `status` char(4) COLLATE 'ascii_general_ci' NULL,
+            `instant_status` int(1) NOT NULL,
+            `SED_k` int(1) NOT NULL,
+            `sigma_max` int(1) NOT NULL,
+            `timestamp` date NOT NULL
+            ) ENGINE='InnoDB';"""
         cursor = connection.cursor()
         try:
-            cursor.execute(query)
+            cursor.execute(create_status_table)
             connection.commit()
             print('Query successfully')
         except Error as err:
@@ -59,7 +59,17 @@ class SQLConnection:
         try:
             cursor.execute("SHOW TABLES")
             for x in cursor:
-                print(x)
+                return x
         except Error as err:
             print(f'error: {err} ')
-        return
+        #return
+
+    """def create_database(query,params):
+        connection = mysql.connector.connect(params)
+        cursor = connection.cursor()
+        try:
+            cursor.execute(query)
+            print('Database successfully')
+        except Error as err:
+            print(f'error: {err}')"""
+    
