@@ -4,8 +4,6 @@ import datetime, json, ast
 from mysql.connector import Error, cursor
 import uuid
 
-now = datetime.datetime.now()
-timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
 
 ## SQL Client
 sql_connection = SQLConnection.connection_to_db('192.168.1.60',3306,'si','tisapolines','polin')
@@ -31,6 +29,8 @@ def callback(ch, method, properties, body):
     
     datos = body.decode('utf-8')
     data = json.loads(datos)
+    now = datetime.datetime.now()
+    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
     data['timestamp'] = timestamp
     _id = uuid.uuid1()
     data['_id'] = _id.hex
