@@ -38,9 +38,9 @@ class SQLConnection:
     
     def create_table(connection):
         create_status_table = """CREATE TABLE IF NOT EXISTS `statuses` (
-            `_id` varchar(24) COLLATE 'ascii_general_ci' NOT NULL,
+            `_id` varchar(32) COLLATE 'ascii_general_ci' NOT NULL,
             `key` varchar(40) COLLATE 'ascii_general_ci' NOT NULL,
-            `status` char(4) COLLATE 'ascii_general_ci' NULL,
+            `status` int(2) COLLATE 'ascii_general_ci' NULL,
             `instant_status` int(1) NOT NULL,
             `SED_k` int(1) NOT NULL,
             `sigma_max` int(1) NOT NULL,

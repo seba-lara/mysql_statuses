@@ -5,7 +5,7 @@ from mysql.connector import Error, cursor
 import uuid
 
 now = datetime.datetime.now()
-timestamp = (now.strftime('%Y-%m-%d %H:%M:%S'))
+timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
 
 ## SQL Client
 sql_connection = SQLConnection.connection_to_db('192.168.1.60',3306,'si','tisapolines','polin')
@@ -39,8 +39,8 @@ def callback(ch, method, properties, body):
     SQLConnection.execute_query(sql_connection,insert_data_query,data)
     print(data,'\n')
     print('Enviando a MYSQL...')
-    print(data,'\n')
-    
+    print('\n')
+
 """for result in cursor.execute(query, multi=True):
         if result.with_rows:
             print("Rows produced by statement '{}':".format(
