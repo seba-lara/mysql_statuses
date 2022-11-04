@@ -1,12 +1,10 @@
-from queue import Queue
-import pika,sys,os
+import pika
 
 class QueueConnection:
     pass
 
-    def connection_to_exchange(self,host,port,usuario,password):
-    
-        
+    def connection_to_exchange(host,port,usuario,password):
+
         credentials = None
         connection = None
         credentials = pika.PlainCredentials(usuario,password)
@@ -18,11 +16,11 @@ class QueueConnection:
         )
         return connection
 
-    def create_channel(self,connection,callback,exchange_name,queue_name):
-        
+    def create_channel(connection,callback,exchange_name,queue_name):
+
         channel = connection.channel()
         channel.queue_declare(queue=queue_name,exclusive=True)
-        channel.queue_bind(exchange=exchange_name, queue=queue_name)              
+        channel.queue_bind(exchange=exchange_name, queue=queue_name)
         channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
         print(' [*] Waiting for statuses. To exit press CTRL+C')
