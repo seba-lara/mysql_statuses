@@ -1,5 +1,5 @@
-from sql_handlers import SQLConnection
-from amqp_handlers import QueueConnection
+from sql_handler import SQLConnection
+from amqp_handler import QueueConnection
 import datetime, json, ast
 from mysql.connector import Error, cursor
 import uuid

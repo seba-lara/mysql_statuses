@@ -10,6 +10,7 @@ services:
       - 33060:33060
     volumes:
       - /root/db:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
     environment:
       MYSQL_ROOT_PASSWORD: 'TISA.2022'
       MYSQL_DATABASE: 'polin'
@@ -20,3 +21,10 @@ services:
     restart: always
     ports:
       - 8080:8080
+  python:
+    image: python:3
+    container_name : si_python_1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    command : "python3 /root/main.py"
+    restart: always
