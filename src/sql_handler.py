@@ -44,13 +44,14 @@ class SQLConnection:
             `instant_status` int(1) NOT NULL,
             `SED_k` int(1) NOT NULL,
             `sigma_max` int(1) NOT NULL,
-            `timestamp` date NOT NULL
+            `timestamp` date NOT NULL,
+            `idler` varchar(100) COLLATE 'ascii_general_ci' NOT NULL
             ) ENGINE='InnoDB';"""
         cursor = connection.cursor()
         try:
             cursor.execute(create_status_table)
             connection.commit()
-            print('Query successfully')
+            print('Successfully')
         except Error as err:
             print(f'error: {err}')
 
