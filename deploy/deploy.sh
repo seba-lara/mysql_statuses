@@ -16,25 +16,25 @@ IMAGES=""
 mkdir -p ${BUILD_DEST}/app
 
 ## COPY FILES
-cp Dockerfile ${BUILD_DEST}/
+cp dockerfiles/python/Dockerfile ${BUILD_DEST}/
 cp ../mysql-conf/docker-compose.yml ${BUILD_DEST}/.
 cp uninstall.sh ${BUILD_DEST}/.
 cp ${SRC_DIR}/* ${BUILD_DEST}/app/.
 
 ## BUILD MYSQL IMAGE
 echo "Construyendo imagen de MySQL [2/8]..."
-docker pull mysql:8.0.31
+docker build -t si_mysql:latest dockerfiles/mysql/
 IMAGES=+"si_mysql:latest"
 
 ## BUILD ADMINER IMAGE
 echo "Construyendo imagen de Adminer [3/8]..."
-docker pull adminer:4.8.1
+docker build -t si_adminer:latest dockerfiles/adminer/
 IMAGES=+"si_adminer:latest"
 
 ## BUILD DOCKER IMAGE FROM DOCKERFILE
 echo "Construyendo imagen de Python [4/8]"
-docker build -t si_mysql_injectStatus:latest ${BUILD_DEST}/
-IMAGES+="si_mysql_injectStatus:latest"
+docker build -t si_mysql_injectstatus:latest ${BUILD_DEST}/
+IMAGES+="si_mysql_injectstatus:latest"
 
 ## SAVE DOCKER IMAGES
 echo -n "Guardando imágenes de Docker [5/8]... "
@@ -46,15 +46,15 @@ echo -n "Guardando Tar [6/8]..."
 tar czf ${NAME}.tar.gz ${BUILD_DEST}
 echo "Ok."
 
-echo -n "Eliminando carpetas temporales [7/8]..."
-rm -rf ${BUILD_DEST}
-docker rmi -f mysql:8.0.31 adminer:4.8.1 python:latest
-echo "Ok."
-
-echo -n "Generando archivo RUN [8/8]..."
+echo -n "Generando archivo RUN [7/8]..."
 cat installer.sh ${NAME}.tar.gz > ${NAME}.run
 chmod +x ${NAME}.run
 rm -rf ${NAME}.tar.gz
+echo "Ok."
+
+echo -n "Eliminando carpetas temporales [8/8]..."
+rm -rf ${BUILD_DEST}
+#docker rmi -f mysql:8.0.31 adminer:4.8.1 python:3.9
 echo "Ok."
 
 echo "Deploy generado exitosamente!"

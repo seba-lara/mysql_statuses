@@ -23,7 +23,7 @@ services:
     ports:
       - 8080:8080
   python:
-    image: si_mysql_injectStatus:latest
+    image: si_mysql_injectstatus:latest
     container_name : si_mysql_injectStatus_1
     volumes:
       - /etc/localtime:/etc/localtime:ro
