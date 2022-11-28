@@ -23,10 +23,10 @@ services:
     ports:
       - 8080:8080
   python:
-    image: si_mysql_injectstatus:latest
-    container_name : si_mysql_injectStatus_1
+    image: si_injectstatus_mysql:latest
+    container_name : si_injectstatus_mysql_1
     volumes:
       - /etc/localtime:/etc/localtime:ro
     working_dir: "/usr/local"
-    command : "python3 /root/main.py"
+    command : "python3 /usr/local/main.py"
     restart: always

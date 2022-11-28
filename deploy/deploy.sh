@@ -1,13 +1,14 @@
 #!/bin/bash
 
+
 ## SET VARIABLES
 echo "Creando variables de entorno [1/8]..."
 PROJECT=mysql_statuses
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BUILD_DEST=./tmp
-SRC_DIR=${DIR}/../src
+SRC_DIR=./../src
 rm -rf ${BUILD_DEST}
-VERSION=$(sh ${DIR}/version_info.sh -d ${DIR}/.. | \
+VERSION=$(sh version_info.sh -d ${DIR}/.. | \
     sed s/@/_/ | \
     sed s/+/-/g)
 TAG=$(echo $VERSION | sed s/-.*/-/g)
@@ -16,29 +17,29 @@ IMAGES=""
 mkdir -p ${BUILD_DEST}/app
 
 ## COPY FILES
-cp dockerfiles/python/Dockerfile ${BUILD_DEST}/
+cp dockerfiles/python/Dockerfile ${BUILD_DEST}/.
 cp ../mysql-conf/docker-compose.yml ${BUILD_DEST}/.
 cp uninstall.sh ${BUILD_DEST}/.
 cp ${SRC_DIR}/* ${BUILD_DEST}/app/.
 
 ## BUILD MYSQL IMAGE
 echo "Construyendo imagen de MySQL [2/8]..."
-docker build -t si_mysql:latest dockerfiles/mysql/
-IMAGES=+"si_mysql:latest"
+docker build -t si_mysql:latest $DIR/dockerfiles/mysql/
+IMAGES+="si_mysql:latest "
 
 ## BUILD ADMINER IMAGE
 echo "Construyendo imagen de Adminer [3/8]..."
-docker build -t si_adminer:latest dockerfiles/adminer/
-IMAGES=+"si_adminer:latest"
+docker build -t si_adminer:latest $DIR/dockerfiles/adminer/
+IMAGES+="si_adminer:latest "
 
 ## BUILD DOCKER IMAGE FROM DOCKERFILE
 echo "Construyendo imagen de Python [4/8]"
-docker build -t si_mysql_injectstatus:latest ${BUILD_DEST}/
-IMAGES+="si_mysql_injectstatus:latest"
+docker build -t si_injectstatus_mysql:latest ${BUILD_DEST}/
+IMAGES+="si_injectstatus_mysql:latest "
 
 ## SAVE DOCKER IMAGES
 echo -n "Guardando imágenes de Docker [5/8]... "
-docker save ${IMAGES} > ${BUILD_DEST}/deploy.tar
+docker save ${IMAGES} > $BUILD_DEST/deploy.tar
 echo "Ok."
 
 ## MAKE INSTALLER
@@ -54,7 +55,7 @@ echo "Ok."
 
 echo -n "Eliminando carpetas temporales [8/8]..."
 rm -rf ${BUILD_DEST}
-#docker rmi -f mysql:8.0.31 adminer:4.8.1 python:3.9
+docker rmi -f $IMAGES mysql adminer python
 echo "Ok."
 
 echo "Deploy generado exitosamente!"

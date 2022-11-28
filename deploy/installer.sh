@@ -31,7 +31,7 @@ echo "Cargando imagenes de Docker [2/4]... "
 docker load < ${TMP1}/tmp/deploy.tar
 
 echo "Levantando contenedores del servicio mysql [3/4]... "
-docker-compose -f ${OUT}/docker-compose.yml up -d
+docker-compose -f ${OUT}/mysql_statuses/docker-compose.yml up -d
 
 echo -n "borrando archivos generados por el instalador [4/4]..."
 rm -rf ${TMP1}
