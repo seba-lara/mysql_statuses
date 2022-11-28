@@ -1,8 +1,6 @@
-FROM python:3
+FROM python:latest
 
-#ADD build/requirements.txt /usr/local/ and install packages
-ADD build/* /usr/local/.
-RUN ls -la /usr/local/
-RUN pip3 install -r /usr/local/requirements.txt
+ADD app/* /usr/local/
+RUN pip install -r /usr/local/requirements.txt
 
 WORKDIR /usr/local

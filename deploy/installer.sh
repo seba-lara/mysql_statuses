@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "======================TISA========================="
 echo "========= Instalando Base de Datos MYSQL =========="
@@ -14,18 +15,25 @@ THIS=$(pwd)/$0
 # take the tarfile and pipe it into tar
 tail -n +${SKIP} ${THIS} | tar -xz -C ${TMP1}
 
+mkdir -p /var/lib/docker/smap
 OUT=/var/lib/docker/smap
 
-echo "Copiando archivos al servidor... "
-rm -rf ${OUT}/mysql_config
-mkdir -p ${OUT}/mysql_config
-mkdir -p ${OUT}/mysql_config/mysql_db
-cp ${TMP1}/build/mysql_app/docker-compose.yml 
+mkdir -p ${OUT}/mysql_statuses/mysql_db
+mkdir -p ${OUT}/mysql_statuses
 
-echo " "
-docker load ${TMP1}/build/mysql_app/images/deploy.tar
+echo "Copiando archivos al servidor [1/4]... "
 
-echo -n "borrando archivos generados por el instalador..."
+cp ${TMP1}/tmp/docker-compose.yml ${OUT}/mysql_statuses/.
+cp ${TMP1}/tmp/uninstall.sh ${OUT}/mysql_statuses/.
+chmod +x $OUT/mysql_statuses/uninstall.sh
+
+echo "Cargando imagenes de Docker [2/4]... "
+docker load < ${TMP1}/tmp/deploy.tar
+
+echo "Levantando contenedores del servicio mysql [3/4]... "
+docker-compose -f ${OUT}/docker-compose.yml up -d
+
+echo -n "borrando archivos generados por el instalador [4/4]..."
 rm -rf ${TMP1}
 
 exit 0

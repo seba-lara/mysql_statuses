@@ -1,7 +1,7 @@
 version: '3'
 services:
   mysql:
-    image: mysql:8.0.31
+    image: si_mysql:latest
     container_name: si_mysql_1
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -9,7 +9,7 @@ services:
       - 3306:3306
       - 33060:33060
     volumes:
-      - /root/db:/var/lib/mysql
+      - /var/lib/docker/smap/mysql_statuses/mysql_db:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
     environment:
       MYSQL_ROOT_PASSWORD: 'TISA.2022'
@@ -17,14 +17,16 @@ services:
       MYSQL_USER: 'si'
       MYSQL_PASSWORD: 'tisapolines'
   adminer:
-    image: adminer
+    image: si_adminer:latest
+    container_name : si_adminer_1
     restart: always
     ports:
       - 8080:8080
   python:
-    image: python:3
-    container_name : si_python_1
+    image: si_mysql_injectStatus:latest
+    container_name : si_mysql_injectStatus_1
     volumes:
       - /etc/localtime:/etc/localtime:ro
+    working_dir: "/usr/local"
     command : "python3 /root/main.py"
     restart: always
