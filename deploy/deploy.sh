@@ -55,7 +55,7 @@ echo "Ok."
 
 echo -n "Eliminando carpetas temporales [8/8]..."
 rm -rf ${BUILD_DEST}
-docker rmi -f $IMAGES mysql adminer python
+docker rmi -f $IMAGES
 echo "Ok."
 
 echo "Deploy generado exitosamente!"

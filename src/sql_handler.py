@@ -20,7 +20,8 @@ class SQLConnection:
                 port=port,
                 user=user,
                 password=password,
-                database=database)
+                database=database
+            )
 
             print("Connection to MySQL DB successful")
         except Error as err:
@@ -41,11 +42,9 @@ class SQLConnection:
             `_id` varchar(32) COLLATE 'ascii_general_ci' NOT NULL,
             `key` varchar(40) COLLATE 'ascii_general_ci' NOT NULL,
             `status` int(2) COLLATE 'ascii_general_ci' NULL,
-            `instant_status` int(1) NOT NULL,
-            `SED_k` int(1) NOT NULL,
-            `sigma_max` int(1) NOT NULL,
             `timestamp` date NOT NULL,
-            `idler` varchar(100) COLLATE 'ascii_general_ci' NOT NULL
+            `idler` varchar(100) COLLATE 'ascii_general_ci' NOT NULL,
+            `latch_status` int(1) NULL
             ) ENGINE='InnoDB';"""
         cursor = connection.cursor()
         try:
@@ -73,4 +72,3 @@ class SQLConnection:
             print('Database successfully')
         except Error as err:
             print(f'error: {err}')"""
-    

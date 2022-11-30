@@ -7,7 +7,7 @@ import uuid
 
 
 ## SQL Client
-sql_connection = SQLConnection.connection_to_db('192.168.1.60',3306,'si','tisapolines','polin')
+sql_connection = SQLConnection.connection_to_db('127.0.0.1',3306,'si','tisapolines','polin')
 
 ## AMQP Client
 #amqp_obj = QueueConnection()
@@ -30,24 +30,27 @@ def callback(ch, method, properties, body):
     
     datos = body.decode('utf-8') # Contiene el cuerpo del mensaje
     data = json.loads(datos) # Convierte el mensaje en un diccionario
-    print(data)
-    """now = datetime.datetime.now() # Objeto de tiempo 
+        
+    now = datetime.datetime.now() # Objeto de tiempo
     #timestamp = now.strftime('%Y-%m-%d %H:%M:%S') # String de tiempo formateado
     data['timestamp'] = now.strftime('%Y-%m-%d %H:%M:%S') #timestamp 
     #_id = uuid.uuid1() # Objeto ID
     data['_id'] = uuid.uuid1().hex #_id.hex # Agrega value 'ID' a la key '_id' del mensaje
-    idler =  mongoConnect.QueryIdlerDmi(urlmongo,data['key']) # Obtiene la ubicacion desde mongo a partir del dato key
+    idler,latch_status =  mongoConnect.QueryIdlerDmi(urlmongo,data['key']) # Obtiene la ubicacion desde mongo a partir del dato key
     
     if idler == None:
       data['idler'] = 'Sensor sin ubicacion'
     else :
       data['idler'] = idler
-    insert_data_query = INSERT INTO `statuses` (`_id`,`key`,`status`,`instant_status`,`SED_k`,`sigma_max`,`timestamp`,`idler`) VALUES (%(_id)s,%(key)s,%(status)s,%(instant_status)s,%(SED_k)s,%(sigma_max)s,%(timestamp)s,%(idler)s); # SQL Insert
+
+    data['latch_status'] = latch_status
+
+    insert_data_query = """INSERT INTO `statuses` (`_id`,`key`,`status`,`timestamp`,`idler`,`latch_status`) VALUES (%(_id)s,%(key)s,%(status)s,%(timestamp)s,%(idler)s,%(latch_status)s);""" # SQL Insert
     
     print('\n',data,'\n')
     print('Send to MYSQL...')
     SQLConnection.execute_query(sql_connection,insert_data_query,data) # Ejecuta el insert en SQL
-    print('==================')"""
+    print('==================')
 
 """for result in cursor.execute(query, multi=True):
         if result.with_rows:
@@ -59,7 +62,7 @@ def callback(ch, method, properties, body):
             result.statement, result.rowcount))"""
 
 ## Invoke queue consumer 
-QueueConnection.create_channel(amqp_connection, callback, 'status', 'catdog')
+QueueConnection.create_channel(amqp_connection, callback, 'status', 'sqlstatuses')
 
 # Ejecuta una consulta
 # sql_connector.execute_query(connection,create_status_table)
