@@ -9,7 +9,7 @@ if [[ ${OPTION} == yes ]]; then
   echo "Uninstalling..."
   OUT=/var/lib/docker/smap/mysql_statuses
   docker-compose -f $OUT/docker-compose.yml down
-  docker rmi -f si_mysql_injectStatus:latest si_mysql:latest si_adminer:latest
+  docker rmi -f si_injectStatus_mysql:latest si_mysql:latest si_adminer:latest
   mv $OUT/mysql_db /root/$DIA_$HORA_mysqldb_backup
   rm -rf /var/lib/docker/smap/mysql_statuses
   rm -rf /tmp/tmp.*
