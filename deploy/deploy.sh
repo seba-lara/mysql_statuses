@@ -2,7 +2,7 @@
 
 
 ## SET VARIABLES
-echo "Creando variables de entorno [1/8]..."
+echo "Estableciendo variables de entorno [1/8]..."
 PROJECT=mysql_statuses
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BUILD_DEST=./tmp
