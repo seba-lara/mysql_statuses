@@ -42,7 +42,7 @@ class SQLConnection:
             `_id` varchar(32) COLLATE 'ascii_general_ci' NOT NULL,
             `key` varchar(40) COLLATE 'ascii_general_ci' NOT NULL,
             `status` int(2) COLLATE 'ascii_general_ci' NULL,
-            `timestamp` date NOT NULL,
+            `timestamp` datetime NOT NULL,
             `idler` varchar(100) COLLATE 'ascii_general_ci' NOT NULL,
             `latch_status` int(1) NULL
             ) ENGINE='InnoDB';"""
