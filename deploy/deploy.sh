@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 ## SET VARIABLES
 echo "Estableciendo variables de entorno [1/8]..."
 PROJECT=mysql_statuses
@@ -38,22 +37,22 @@ docker build -t si_injectstatus_mysql:latest ${BUILD_DEST}/
 IMAGES+="si_injectstatus_mysql:latest "
 
 ## SAVE DOCKER IMAGES
-echo -n "Guardando imágenes de Docker [5/8]... "
+echo "Guardando imágenes de Docker [5/8]... "
 docker save ${IMAGES} > $BUILD_DEST/deploy.tar
 echo "Ok."
 
 ## MAKE INSTALLER
-echo -n "Guardando Tar [6/8]..."
+echo "Guardando Tar [6/8]..."
 tar czf ${NAME}.tar.gz ${BUILD_DEST}
 echo "Ok."
 
-echo -n "Generando archivo RUN [7/8]..."
+echo "Generando archivo RUN [7/8]..."
 cat installer.sh ${NAME}.tar.gz > ${NAME}.run
 chmod +x ${NAME}.run
 rm -rf ${NAME}.tar.gz
 echo "Ok."
 
-echo -n "Eliminando carpetas temporales [8/8]..."
+echo "Eliminando carpetas temporales [8/8]..."
 rm -rf ${BUILD_DEST}
 docker rmi -f $IMAGES
 echo "Ok."
