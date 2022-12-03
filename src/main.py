@@ -38,11 +38,7 @@ def callback(ch, method, properties, body):
     data['_id'] = uuid.uuid1().hex #_id.hex # Agrega value 'ID' a la key '_id' del mensaje
     idler,latch_status =  mongoConnect.QueryIdlerDmi(urlmongo,data['key']) # Obtiene la ubicacion desde mongo a partir del dato key
     
-    if idler == None:
-      data['idler'] = 'Sensor sin ubicacion'
-    else :
-      data['idler'] = idler
-
+    data['idler'] = idler
     data['latch_status'] = latch_status
 
     insert_data_query = """INSERT INTO `statuses` (`_id`,`key`,`status`,`timestamp`,`idler`,`latch_status`) VALUES (%(_id)s,%(key)s,%(status)s,%(timestamp)s,%(idler)s,%(latch_status)s);""" # SQL Insert

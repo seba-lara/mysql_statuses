@@ -1,5 +1,4 @@
 import pymongo
-import pprint
 
 class mongoConnect:
     pass
@@ -9,30 +8,21 @@ class mongoConnect:
         client = pymongo.MongoClient(uri)
         db=client.polin
         collection = db.get_collection('statuses')
-        cursor = collection.find({'key':f'{key}','idler':{'$exists':True},'latch_status':{'$exists':True}}).limit(1)
+        #cursor = collection.find({'key':f'{key}','idler':{'$exists':True},'latch_status':{'$exists':True}}).limit(1)
+        cursor = collection.find({'key':f'{key}'}).sort('timestamp',pymongo.DESCENDING).limit(1)
 
-        for item in cursor.sort('timestamp',pymongo.DESCENDING):
+        for item in cursor: #cursor.sort('timestamp',pymongo.DESCENDING):
+            if 'latch_status' not in item:
+                item['latch_status'] = None
+                latch_status = item['latch_status']
+            else:
+                latch_status = item['latch_status']
+
+            if 'idler' not in item:
+                item['idler'] = 'Sensor sin ubicacion'
+                idler = item['idler']
+            else:
+                idler = item['idler']
             
-            """if cursor == None:
-                print(f'El sensor {key}, no tiene ubicacion.')
-            else
-                #print(item['idler'])"""
-            return item['idler'],item['latch_status']
-        #client.close()
-        #return item['idler']
-        client.close()
-        #return item
-    
-    """for record in cursor:
-        if 'idler' not in record:
-            pass
-        else:
-            print(record)
-            i= i+1"""
-    
-
-#key = 'Test/Correa de prueba/El sector/M1/EC0'
-"""urlmongo = "mongodb://si:tisapolines@192.168.1.119:27017/?authSource=polin&authMechanism=SCRAM-SHA-1"
-asd = '/wsn1/0013a20041540c88'
-connecttomongo = mongoConnect.QueryIdlerDmi(urlmongo,asd)
-print(connecttomongo)"""
+            return idler, latch_status
+        cursor.close()
