@@ -29,5 +29,5 @@ services:
       - /etc/localtime:/etc/localtime:ro
     working_dir: "/usr/local"
     network_mode: "host"
-    command : "python3 /usr/local/main.py"
+    command : "python3 -u /usr/local/main.py"
     restart: always
