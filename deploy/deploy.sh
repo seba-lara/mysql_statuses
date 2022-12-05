@@ -46,12 +46,14 @@ echo "Guardando Tar [6/8]..."
 tar czf ${NAME}.tar.gz ${BUILD_DEST}
 echo "Ok."
 
+## MAKE RUN FILE
 echo "Generando archivo RUN [7/8]..."
 cat installer.sh ${NAME}.tar.gz > ${NAME}.run
 chmod +x ${NAME}.run
 rm -rf ${NAME}.tar.gz
 echo "Ok."
 
+## ERASE TEMP FOLDERS & IMAGES
 echo "Eliminando carpetas temporales [8/8]..."
 rm -rf ${BUILD_DEST}
 docker rmi -f $IMAGES
