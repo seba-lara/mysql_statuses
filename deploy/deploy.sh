@@ -22,39 +22,39 @@ cp uninstall.sh ${BUILD_DEST}/.
 cp ${SRC_DIR}/* ${BUILD_DEST}/app/.
 
 ## BUILD MYSQL IMAGE
-echo "Construyendo imagen de MySQL [2/8]..."
+echo -n "Construyendo imagen de MySQL [2/8]..."
 docker build -t si_mysql:latest $DIR/dockerfiles/mysql/
 IMAGES+="si_mysql:latest "
 
 ## BUILD ADMINER IMAGE
-echo "Construyendo imagen de Adminer [3/8]..."
+echo -n "Construyendo imagen de Adminer [3/8]..."
 docker build -t si_adminer:latest $DIR/dockerfiles/adminer/
 IMAGES+="si_adminer:latest "
 
 ## BUILD DOCKER IMAGE FROM DOCKERFILE
-echo "Construyendo imagen de Python [4/8]"
+echo -n "Construyendo imagen de Python [4/8]"
 docker build -t si_injectstatus_mysql:latest ${BUILD_DEST}/
 IMAGES+="si_injectstatus_mysql:latest "
 
 ## SAVE DOCKER IMAGES
-echo "Guardando imágenes de Docker [5/8]... "
+echo -n "Guardando imágenes de Docker [5/8]... "
 docker save ${IMAGES} > $BUILD_DEST/deploy.tar
 echo "Ok."
 
 ## MAKE INSTALLER
-echo "Guardando Tar [6/8]..."
+echo -n "Guardando Tar [6/8]..."
 tar czf ${NAME}.tar.gz ${BUILD_DEST}
 echo "Ok."
 
 ## MAKE RUN FILE
-echo "Generando archivo RUN [7/8]..."
+echo -n "Generando archivo RUN [7/8]..."
 cat installer.sh ${NAME}.tar.gz > ${NAME}.run
 chmod +x ${NAME}.run
 rm -rf ${NAME}.tar.gz
 echo "Ok."
 
 ## ERASE TEMP FOLDERS & IMAGES
-echo "Eliminando carpetas temporales [8/8]..."
+echo -n "Eliminando carpetas temporales [8/8]..."
 rm -rf ${BUILD_DEST}
 docker rmi -f $IMAGES
 echo "Ok."
