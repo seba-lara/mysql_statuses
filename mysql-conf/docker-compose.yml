@@ -28,5 +28,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
     working_dir: "/usr/local"
+    network_mode: "host"
     command : "python3 /usr/local/main.py"
     restart: always

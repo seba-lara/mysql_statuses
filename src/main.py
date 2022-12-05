@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from sql_handler import SQLConnection
 from amqp_handler import QueueConnection
 from mongo_handler import mongoConnect
