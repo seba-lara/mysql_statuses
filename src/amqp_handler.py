@@ -28,31 +28,7 @@ class QueueConnection:
         channel.start_consuming()
 
 
-"""import pika,sys,os
-import datetime
-import time
-import json
-
-def main():
-    tiempo = datetime.datetime.now()
-    credentials = pika.PlainCredentials('tisa','tisa')
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host='10.75.10.166',port=5672,credentials=credentials))
-    channel = connection.channel()
-
-    channel.exchange_declare(exchange='status', exchange_type='fanout',durable=True)
-
-    result = channel.queue_declare(queue='catdog',exclusive=True)
-    queue_name = result.method.queue
-    channel.queue_bind(exchange='status', queue=queue_name)
-    print('[*] Waiting for logs. To exit press CTRL+C')
-    
-    def callback(ch, method, properties, body):
-        asd = (f" {tiempo} [x] %r" % ) # its a tuple
-        print(" [x] Done")
-        print(asd)
-
-    channel.basic_consume(
-        queue=queue_name, on_message_callback=callback, auto_ack=True)
+"""def main():
 
     channel.start_consuming()
 

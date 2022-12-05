@@ -6,7 +6,6 @@ import datetime, json, ast
 from mysql.connector import Error, cursor
 import uuid
 
-
 ## SQL Client
 sql_connection = SQLConnection.connection_to_db('127.0.0.1',3306,'si','tisapolines','polin')
 
@@ -49,20 +48,6 @@ def callback(ch, method, properties, body):
     SQLConnection.execute_query(sql_connection,insert_data_query,data) # Ejecuta el insert en SQL
     print('==================')
 
-"""for result in cursor.execute(query, multi=True):
-        if result.with_rows:
-            print("Rows produced by statement '{}':".format(
-            result.statement))
-            print(result.fetchall())
-        else:
-            print("Number of rows affected by statement '{}': {}".format(
-            result.statement, result.rowcount))"""
 
 ## Invoke queue consumer 
 QueueConnection.create_channel(amqp_connection, callback, 'status', 'sqlstatuses')
-
-# Ejecuta una consulta
-# sql_connector.execute_query(connection,create_status_table)
-
-# Muestra las tablas
-# sql_connector.show_tables(connection)
