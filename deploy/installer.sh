@@ -22,19 +22,19 @@ OUT=/var/lib/docker/smap
 mkdir -p ${OUT}/mysql_statuses/mysql_db
 mkdir -p ${OUT}/mysql_statuses
 
-echo -n "Copiando archivos al servidor [2/5]... "
+echo "Copiando archivos al servidor [2/5]... "
 
 cp ${TMP1}/tmp/docker-compose.yml ${OUT}/mysql_statuses/.
 cp ${TMP1}/tmp/uninstall.sh ${OUT}/mysql_statuses/.
 chmod +x $OUT/mysql_statuses/uninstall.sh
 
-echo -n "Cargando imagenes de Docker [3/5]... "
+echo "Cargando imagenes de Docker [3/5]... "
 docker load < ${TMP1}/tmp/deploy.tar
 
-echo -n "Levantando contenedores del servicio mysql [4/5]... "
+echo "Levantando contenedores del servicio mysql [4/5]... "
 docker-compose -f ${OUT}/mysql_statuses/docker-compose.yml up -d
 
-echo -n "borrando archivos generados por el instalador [5/5]..."
+echo "borrando archivos generados por el instalador [5/5]..."
 rm -rf ${TMP1}
 
 exit 0
