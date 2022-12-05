@@ -12,9 +12,9 @@ sql_connection = SQLConnection.connection_to_db('127.0.0.1',3306,'si','tisapolin
 ## AMQP Client
 #amqp_obj = QueueConnection()
 amqp_connection = QueueConnection.connection_to_exchange(
-  '10.75.10.166', 5672, 'tisa', 'tisa'
+  '127.0.0.1', 5672, 'tisa', 'tisa'
 )
-urlmongo = "mongodb://si:tisapolines@10.75.10.166:27017/?authSource=polin&authMechanism=SCRAM-SHA-1"
+urlmongo = "mongodb://si:tisapolines@127.0.0.1:27017/?authSource=polin&authMechanism=SCRAM-SHA-1"
 
 ## Create table statuses only if not exist
 show_tables = SQLConnection.show_tables(sql_connection)

@@ -16,11 +16,10 @@ THIS=$(pwd)/$0
 # take the tarfile and pipe it into tar
 tail -n +${SKIP} ${THIS} | tar -xz -C ${TMP1}
 
-mkdir -p /var/lib/docker/smap
 OUT=/var/lib/docker/smap
 
-mkdir -p ${OUT}/mysql_statuses/mysql_db
 mkdir -p ${OUT}/mysql_statuses
+mkdir -p ${OUT}/mysql_statuses/mysql_db
 
 echo "Copiando archivos al servidor [2/5]... "
 
