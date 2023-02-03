@@ -20,7 +20,7 @@ class QueueConnection:
     def create_channel(connection,callback,exchange_name,queue_name):
 
         channel = connection.channel()
-        channel.queue_declare(queue=queue_name,exclusive=False,durable=False)
+        channel.queue_declare(queue=queue_name,exclusive=False,durable=False,auto_delete=True)
         channel.queue_bind(exchange=exchange_name, queue=queue_name)
         channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
