@@ -27,27 +27,27 @@ else:
 
 ## Callback function
 def callback(ch, method, properties, body):
-    
+
     datos = body.decode('utf-8') # Contiene el cuerpo del mensaje
     data = json.loads(datos) # Convierte el mensaje en un diccionario
-        
+
     now = datetime.datetime.now() # Objeto de tiempo
     #timestamp = now.strftime('%Y-%m-%d %H:%M:%S') # String de tiempo formateado
     data['timestamp'] = now.strftime('%Y-%m-%d %H:%M:%S') #timestamp 
     #_id = uuid.uuid1() # Objeto ID
     data['_id'] = uuid.uuid1().hex #_id.hex # Agrega value 'ID' a la key '_id' del mensaje
     idler,latch_status =  mongoConnect.QueryIdlerDmi(urlmongo,data['key']) # Obtiene la ubicacion desde mongo a partir del dato key
-    
+
     data['idler'] = idler
     data['latch_status'] = latch_status
 
     insert_data_query = """INSERT INTO `statuses` (`_id`,`key`,`status`,`timestamp`,`idler`,`latch_status`) VALUES (%(_id)s,%(key)s,%(status)s,%(timestamp)s,%(idler)s,%(latch_status)s);""" # SQL Insert
-    
+
     print('\n',data,'\n')
     print('Send to MYSQL...')
     SQLConnection.execute_query(sql_connection,insert_data_query,data) # Ejecuta el insert en SQL
     print('==================')
 
 
-## Invoke queue consumer 
+## Invoke queue consumer
 QueueConnection.create_channel(amqp_connection, callback, 'status', 'sqlstatuses')
