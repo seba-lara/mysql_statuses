@@ -4,6 +4,7 @@ from amqpHandler import QueueConnection
 from mongoHandler import mongoConnect
 import datetime, json
 import uuid
+import os.sys
 
 ## SQL Client
 sql_connection = SQLConnection.connection_to_db('127.0.0.1',3306,'si','tisapolines','polin')
